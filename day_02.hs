@@ -34,7 +34,7 @@ getCubeCount = swap . B.second getCubeColor . E.fromRight (0, "") . T.decimal . 
 getId :: T.Text -> Int
 getId = fst . E.fromRight (0, "") . T.decimal . T.filter isDigit
 
-processInput :: [T.Text] -> [Game] 
+processInput :: [T.Text] -> [Game]
 processInput = map $ (\x -> (getId $ head x, processSets $ head $ tail x)) . T.splitOn ":"
 
 isSetPossible :: Int -> Int -> Int -> Set -> Bool
@@ -54,7 +54,7 @@ reduceSets = map (foldl1' getMaxCubes) . groupBy ((==) `on` fst) . sort . concat
 
 areSetsPossible :: [Game] -> [(Int, Bool)]
 areSetsPossible =
-  map (B.second (all ((== True) . all ((== True) .
+  map (B.second (all (id . all (id .
   isSetPossible maxRedCubes maxGreenCubes maxBlueCubes))))
 
 addPossibleIds :: [(Int, Bool)] -> Int
