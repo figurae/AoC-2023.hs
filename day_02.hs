@@ -1,21 +1,26 @@
-{-# LANGUAGE OverloadedStrings, ImportQualifiedPost #-}
+{-# LANGUAGE ImportQualifiedPost #-}
+{-# LANGUAGE OverloadedStrings #-}
 
-import Data.Function
-import Data.List
 import Data.Bifunctor qualified as B
 import Data.Char
 import Data.Either qualified as E
+import Data.Function
+import Data.List
 import Data.Text qualified as T
 import Data.Text.IO qualified as T
 import Data.Text.Read qualified as T
 import Data.Tuple
 
 data Color = Red | Green | Blue deriving (Eq, Ord, Show)
+
 type Set = (Color, Int)
+
 type Game = (Int, [[Set]])
 
 maxRedCubes = 12
+
 maxGreenCubes = 13
+
 maxBlueCubes = 14
 
 getCubeColor :: T.Text -> Color
@@ -54,8 +59,7 @@ reduceSets = map (foldl1' getMaxCubes) . groupBy ((==) `on` fst) . sort . concat
 
 areSetsPossible :: [Game] -> [(Int, Bool)]
 areSetsPossible =
-  map (B.second (all (id . all (id .
-  isSetPossible maxRedCubes maxGreenCubes maxBlueCubes))))
+  map (B.second (all (all (isSetPossible maxRedCubes maxGreenCubes maxBlueCubes))))
 
 addPossibleIds :: [(Int, Bool)] -> Int
 addPossibleIds = sum . map fst . filter snd
