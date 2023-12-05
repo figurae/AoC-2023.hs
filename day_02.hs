@@ -59,7 +59,7 @@ reduceSets = map (foldl1' getMaxCubes) . groupBy ((==) `on` fst) . sort . concat
 
 areSetsPossible :: [Game] -> [(Int, Bool)]
 areSetsPossible =
-  map (B.second (all (all (isSetPossible maxRedCubes maxGreenCubes maxBlueCubes))))
+  map . B.second . all . all $ isSetPossible maxRedCubes maxGreenCubes maxBlueCubes
 
 addPossibleIds :: [(Int, Bool)] -> Int
 addPossibleIds = sum . map fst . filter snd
